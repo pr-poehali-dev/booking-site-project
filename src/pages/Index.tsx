@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -82,6 +83,7 @@ const properties = [
 ];
 
 const Index = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [priceRange, setPriceRange] = useState([0, 15000]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -329,6 +331,7 @@ const Index = () => {
               {filteredProperties.map((property, index) => (
                 <Card 
                   key={property.id} 
+                  onClick={() => navigate(`/property/${property.id}`)}
                   className="overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer group border-purple-100 animate-fade-in"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
@@ -389,7 +392,13 @@ const Index = () => {
                   </CardContent>
 
                   <CardFooter>
-                    <Button className="w-full gradient-primary text-white hover:opacity-90">
+                    <Button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/property/${property.id}`);
+                      }}
+                      className="w-full gradient-primary text-white hover:opacity-90"
+                    >
                       Забронировать
                     </Button>
                   </CardFooter>
