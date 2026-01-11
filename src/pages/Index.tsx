@@ -128,13 +128,17 @@ const Index = () => {
             <nav className="hidden md:flex items-center gap-6">
               <a href="#" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">Главная</a>
               <a href="#catalog" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">Каталог</a>
-              <a href="#favorites" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">Избранное</a>
-              <a href="#reviews" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">Отзывы</a>
-              <a href="#contacts" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">Контакты</a>
+              <button onClick={() => navigate('/map')} className="text-gray-700 hover:text-purple-600 transition-colors font-medium">Карта</button>
+              <button onClick={() => navigate('/profile')} className="text-gray-700 hover:text-purple-600 transition-colors font-medium">Профиль</button>
             </nav>
 
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" className="relative hover:bg-purple-100">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative hover:bg-purple-100"
+                onClick={() => navigate('/profile')}
+              >
                 <Icon name="Heart" size={20} />
                 {favorites.length > 0 && (
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-gradient-to-r from-purple-600 to-pink-600">
@@ -142,8 +146,21 @@ const Index = () => {
                   </Badge>
                 )}
               </Button>
-              <Button variant="ghost" size="icon" className="hover:bg-purple-100">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="hover:bg-purple-100"
+                onClick={() => navigate('/profile')}
+              >
                 <Icon name="User" size={20} />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="hover:bg-purple-100"
+                onClick={() => navigate('/map')}
+              >
+                <Icon name="Map" size={20} />
               </Button>
               <Sheet>
                 <SheetTrigger asChild>
@@ -159,9 +176,8 @@ const Index = () => {
                   <nav className="flex flex-col gap-4 mt-6">
                     <a href="#" className="text-lg text-gray-700 hover:text-purple-600 transition-colors">Главная</a>
                     <a href="#catalog" className="text-lg text-gray-700 hover:text-purple-600 transition-colors">Каталог</a>
-                    <a href="#favorites" className="text-lg text-gray-700 hover:text-purple-600 transition-colors">Избранное</a>
-                    <a href="#reviews" className="text-lg text-gray-700 hover:text-purple-600 transition-colors">Отзывы</a>
-                    <a href="#contacts" className="text-lg text-gray-700 hover:text-purple-600 transition-colors">Контакты</a>
+                    <button onClick={() => navigate('/map')} className="text-lg text-left text-gray-700 hover:text-purple-600 transition-colors">Карта</button>
+                    <button onClick={() => navigate('/profile')} className="text-lg text-left text-gray-700 hover:text-purple-600 transition-colors">Профиль</button>
                   </nav>
                 </SheetContent>
               </Sheet>
