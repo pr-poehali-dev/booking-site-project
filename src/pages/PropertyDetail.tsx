@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -105,11 +106,33 @@ const PropertyDetail = () => {
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [isFavorite, setIsFavorite] = useState(false);
   const [bookingOpen, setBookingOpen] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+
+  const applyPromoCode = () => {
+    const promoCodes: { [key: string]: number } = {
+      'SOCHI25': 25,
+      'NY2024': 40,
+      'WINTER20': 20,
+      'FIRSTBOOK': 15
+    };
+    
+    const discountPercent = promoCodes[promoCode.toUpperCase()];
+    if (discountPercent) {
+      setDiscount(discountPercent);
+      alert(`Промокод применен! Скидка ${discountPercent}%`);
+    } else {
+      alert('Неверный промокод');
+      setDiscount(0);
+    }
+  };
 
   const calculateTotal = () => {
     if (!checkIn || !checkOut) return 0;
     const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
-    return nights * property.price;
+    const basePrice = nights * property.price;
+    const discountAmount = basePrice * (discount / 100);
+    return basePrice - discountAmount;
   };
 
   const handleBooking = () => {
@@ -400,6 +423,40 @@ const PropertyDetail = () => {
                   </div>
                 </div>
 
+                <div>
+                  <Label className="text-sm font-semibold mb-2 block">Промокод</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      placeholder="Введите промокод"
+                      value={promoCode}
+                      onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                      className="border-purple-200"
+                    />
+                    <Button 
+                      variant="outline"
+                      onClick={applyPromoCode}
+                      disabled={!promoCode}
+                      className="whitespace-nowrap"
+                    >
+                      <Icon name="Tag" size={16} className="mr-1" />
+                      Применить
+                    </Button>
+                  </div>
+                  {discount > 0 && (
+                    <div className="mt-2 p-2 rounded-lg bg-green-50 border border-green-200 text-sm text-green-700 flex items-center gap-2">
+                      <Icon name="Check" size={16} />
+                      Скидка {discount}% применена
+                    </div>
+                  )}
+                  <Button 
+                    variant="link" 
+                    className="mt-2 p-0 h-auto text-xs text-purple-600"
+                    onClick={() => navigate('/notifications')}
+                  >
+                    Посмотреть доступные промокоды →
+                  </Button>
+                </div>
+
                 {checkIn && checkOut && (
                   <div className="p-4 rounded-lg gradient-card space-y-2">
                     <div className="flex justify-between text-sm">
@@ -410,6 +467,14 @@ const PropertyDetail = () => {
                         {(property.price * Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))).toLocaleString()} ₽
                       </span>
                     </div>
+                    {discount > 0 && (
+                      <div className="flex justify-between text-sm text-green-700">
+                        <span>Скидка ({discount}%)</span>
+                        <span className="font-semibold">
+                          -{Math.round((property.price * Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))) * (discount / 100)).toLocaleString()} ₽
+                        </span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-sm">
                       <span>Сервисный сбор</span>
                       <span className="font-semibold">{Math.round(calculateTotal() * 0.05).toLocaleString()} ₽</span>

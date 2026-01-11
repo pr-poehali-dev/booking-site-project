@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import PropertyDetail from "./pages/PropertyDetail";
 import Profile from "./pages/Profile";
 import MapView from "./pages/MapView";
+import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/property/:id" element={<PropertyDetail />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/map" element={<MapView />} />
+          <Route path="/notifications" element={<Notifications />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -137,6 +137,17 @@ const Index = () => {
                 variant="ghost" 
                 size="icon" 
                 className="relative hover:bg-purple-100"
+                onClick={() => navigate('/notifications')}
+              >
+                <Icon name="Bell" size={20} />
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-gradient-to-r from-purple-600 to-pink-600">
+                  3
+                </Badge>
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative hover:bg-purple-100"
                 onClick={() => navigate('/profile')}
               >
                 <Icon name="Heart" size={20} />
